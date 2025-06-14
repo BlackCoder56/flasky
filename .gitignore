@@ -1,0 +1,23 @@
+# Ignore virtual enviroments
+venv/
+env/
+ENV/
+.venv/
+.pyenv/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore enviroment vaariable files
+.env
+*.env
+
+.vscode/
+.ideal/
+
+*.log
+*.bak
+*.swp
+.DS_Store
