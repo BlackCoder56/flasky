@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
@@ -17,13 +17,19 @@ moment = Moment(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     # form get & post
-    name = None
+    """ name = None """
     form = NameForm()
     if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ''
+        session['name'] = form.name.data # The variable is now placed in the user session as session['name'] so that it is remembered beyond the request
+        """ name = form.name.data
+        form.name.data = '' """
+        return redirect(url_for('index'))
     # return render_template('index.html', current_time=datetime.utcnow())
-    return render_template('index.html', form=form, name=name, current_time=datetime.utcnow())
+    return render_template('index.html', form=form, name=session.get('name'), current_time=datetime.utcnow())
+    """ render_template now obtains the name argument directly from the session 
+    using session.get('name'). Using get() to request a dictionary key avoids 
+    an exception for keys that aren’t found. The get() method returns a default 
+    value of None for a missing key. """
 
 @app.route('/user/<name>')
 def user(name):
