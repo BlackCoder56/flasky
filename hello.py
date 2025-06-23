@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
@@ -20,6 +20,9 @@ def index():
     """ name = None """
     form = NameForm()
     if form.validate_on_submit():
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash(f'Looks like you have changed your name!')
         session['name'] = form.name.data # The variable is now placed in the user session as session['name'] so that it is remembered beyond the request
         """ name = form.name.data
         form.name.data = '' """
